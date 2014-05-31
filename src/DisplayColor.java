@@ -13,6 +13,7 @@ public class DisplayColor extends Panel implements MouseListener{
 	private int nmbColor;
 	private Fenetre frame;
 	private Color[] tabColor;
+	private PanelColor modify;
 	boolean estPasse = false;
 	public DisplayColor(Fenetre frame, int nmbColor, Color c, int x, int y, int w, int h) {
 		super(c, x, y, w, h);
@@ -51,8 +52,12 @@ public class DisplayColor extends Panel implements MouseListener{
 
 	@Override
 	public void mouseClicked(MouseEvent arg0) {
-		// TODO Auto-generated method stub
-		
+		if(arg0.getSource() instanceof Button){
+			Button b = (Button) arg0.getSource();
+			modify = new PanelColor(this.frame, this, b, 600, 300);
+			this.frame.setContentPane(modify);
+			this.frame.revalidate();
+		}
 	}
 
 	@Override

@@ -1,7 +1,7 @@
 package utils;
 
+import java.awt.Color;
 import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
 
 import javax.swing.JButton;
 
@@ -9,6 +9,7 @@ public class Button extends JButton{
 
 	private String name = "";
 	private int posX, posY;
+	private Color trueColor;
 	
 	public Button(int id, int posX, int posY, int width, int height){
 		this.posX = posX;
@@ -36,6 +37,14 @@ public class Button extends JButton{
 	
 	public int getPosY(){
 		return this.posY;
+	}
+	
+	public void setColor(Color c){
+		this.trueColor = c;
+	}
+	
+	public Color getColor(){
+		return this.trueColor;
 	}
 	public void mouseReleased(MouseEvent event) {
 		System.out.println(event.getButton());
