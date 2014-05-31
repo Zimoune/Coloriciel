@@ -29,6 +29,7 @@ public class PanelColor extends JPanel implements MouseListener {
 	private Button choseColor = new Button("précision", 490, 30, 100, 40);
 	private Color bgColor;
 	private Fenetre frame;
+	private DisplayColor dc;
 	private Label numColor = new Label("Il reste ", 450, 175, 150, 40);
 
 	public PanelColor(Fenetre f, String name, int nbColor, Color c, int w, int h) {
@@ -56,6 +57,33 @@ public class PanelColor extends JPanel implements MouseListener {
 		this.add(colorB);
 		this.add(colorG);
 	}
+	
+	public PanelColor(Fenetre f, DisplayColor dc, Button lastButton, int w, int h){
+		this.bgColor = dc.getBackground();
+		this.dc = dc;
+		this.setBackground(this.bgColor);
+		this.add(colorB);
+		this.add(colorG);
+		this.add(colorR);
+		this.colorB.setColor(""+lastButton.getColor().getBlue());
+		this.colorR.setColor(""+lastButton.getColor().getRed());
+		this.colorG.setColor(""+lastButton.getColor().getGreen());
+		this.colorChoice.setBackground(lastButton.getColor());
+		choseColor.addMouseListener(this);
+		this.add(choseColor);
+		//this.add(this.numColor);
+		this.frame = f;
+		this.setSize(new Dimension(w, h));
+		this.setLayout(null);
+		this.addMouseListener(this);
+		// carreColor.setMaximumSize(new Dimension(200, 200));
+		this.add(carreColor);
+		validColor(colorR.getColor(), colorG.getColor(), colorB.getColor());
+		this.add(colorChoice);
+		//this.next.addMouseListener(this);
+		//this.add(next);
+
+	}
 
 	public void validColor(int r, int g, int b) {
 		if (r < 0 || r > 255)
@@ -73,46 +101,53 @@ public class PanelColor extends JPanel implements MouseListener {
 
 	@Override
 	public void mouseClicked(MouseEvent arg0) {
-		if (arg0.getSource() == next) {
-			if (this.nmbColor != 0) {
-				this.frame.getDC().addColor(
-						new Color(this.stringToInt(this.colorR.getText()), this
-								.stringToInt(this.colorG.getText()), this
-								.stringToInt(this.colorB.getText())));
-				this.frame.setContentPane(new PanelColor(this.frame,
-						"menuColorChoice", this.nmbColor, this.bgColor, this
-								.getWidth(), this.getHeight()));
-			} else {
-				this.frame.getDC().addColor(
-						new Color(this.stringToInt(this.colorR.getText()), this
-								.stringToInt(this.colorG.getText()), this
-								.stringToInt(this.colorB.getText())));
-				this.frame.getDC().updatePanel();
-				this.frame.setContentPane(this.frame.getDC());
+		Button b;
+		if(arg0.getSource() instanceof Button){
+			b = (Button) arg0.getSource();
+			if (arg0.getSource() == next) {
+				if (this.nmbColor != 0) {
+					this.frame.getDC().addColor(
+							new Color(this.stringToInt(this.colorR.getText()), this
+									.stringToInt(this.colorG.getText()), this
+									.stringToInt(this.colorB.getText())));
+					b.setColor(this.colorChoice.getBackground());
+					this.frame.setContentPane(new PanelColor(this.frame,
+							"menuColorChoice", this.nmbColor, this.bgColor, this
+									.getWidth(), this.getHeight()));
+				} else {
+					this.frame.getDC().addColor(
+							new Color(this.stringToInt(this.colorR.getText()), this
+									.stringToInt(this.colorG.getText()), this
+									.stringToInt(this.colorB.getText())));
+					b.setColor(this.colorChoice.getBackground());
+					this.frame.getDC().updatePanel();
+					this.frame.setContentPane(this.frame.getDC());
+				}
+				this.frame.revalidate();
 			}
-			this.frame.revalidate();
-		}
 
-		else if (arg0.getSource() == choseColor) {
-			PrecisePanel p = new PrecisePanel(this.frame, this,
-					this.getBackground(), 0, 0, this.getWidth(),
-					this.getHeight());
-			this.frame.setContentPane(p);
-			this.frame.revalidate();
-		}
+			else if (arg0.getSource() == choseColor) {
+				PrecisePanel p = new PrecisePanel(this.frame, this,
+						this.getBackground(), 0, 0, this.getWidth(),
+						this.getHeight());
+				this.frame.setContentPane(p);
+				this.frame.revalidate();
+			}
 
-		else {
-			System.out.println(colorR.getText() + " " + colorG.getText() + " "
-					+ colorB.getText());
-			this.colorR.setColor(colorR.getText());
-			this.colorG.setColor(colorG.getText());
-			this.colorB.setColor(colorB.getText());
-			validColor(colorR.getColor(), colorG.getColor(), colorB.getColor());
-			this.colorR.setText("" + colorR.getColor());
-			this.colorG.setText("" + colorG.getColor());
-			this.colorB.setText("" + colorB.getColor());
-			this.repaint();
+			else {
+				System.out.println(colorR.getText() + " " + colorG.getText() + " "
+						+ colorB.getText());
+				this.colorR.setColor(colorR.getText());
+				this.colorG.setColor(colorG.getText());
+				this.colorB.setColor(colorB.getText());
+				validColor(colorR.getColor(), colorG.getColor(), colorB.getColor());
+				this.colorR.setText("" + colorR.getColor());
+				this.colorG.setText("" + colorG.getColor());
+				this.colorB.setText("" + colorB.getColor());
+				this.repaint();
+			}
 		}
+			
 
 	}
 
