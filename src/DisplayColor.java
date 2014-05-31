@@ -67,11 +67,11 @@ public class DisplayColor extends Panel implements MouseListener{
 				tabColor[i] = buttonList.get(i).getBackground();
 				int r, g, b;
 				r = (int) (0.299*tabColor[i].getRed());
-				System.out.println(r);
+				//System.out.println(r);
 				g = (int) (0.587*tabColor[i].getGreen());
-				System.out.println(g);
+				//System.out.println(g);
 				b = (int) (0.114*tabColor[i].getBlue());
-				System.out.println(b);
+				//System.out.println(b);
 				buttonList.get(i).setBackground(new Color(r+g+b, r+g+b, r+g+b));
 			}
 			this.frame.revalidate();

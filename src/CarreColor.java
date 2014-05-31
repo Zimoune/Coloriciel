@@ -1,5 +1,3 @@
-//Simon tu me vois ? :O
-
 
 import java.awt.Color;
 import java.awt.Dimension;
@@ -18,6 +16,7 @@ public class CarreColor extends JPanel implements ActionListener{
 	private Button[][] tab = new Button[6][4];
 	private ArrayList<Color> listColor = new ArrayList<Color>();
 	public PanelColor pc;
+
 	
 	public CarreColor(String name, Color c, PanelColor pc){ //int w, int h){
 		this.pc = pc;
@@ -68,19 +67,19 @@ public class CarreColor extends JPanel implements ActionListener{
 		listColor.add(new Color(255,0,128));
 	}
 
+
+	
 	@Override
 	public void actionPerformed(ActionEvent arg0) {
 		int r = ((JButton)arg0.getSource()).getBackground().getRed();
 		int g = ((JButton)arg0.getSource()).getBackground().getGreen();
 		int b = ((JButton)arg0.getSource()).getBackground().getBlue();
-		System.out.println("r = " + r + " g = " + g + " b = " + b);
 		pc.validColor(r, g, b);
-		pc.colorR.setText(""+r);
-		pc.colorG.setText(""+g);
-		pc.colorB.setText(""+b);
+		pc.colorR.setText(""+pc.colorChoice.getBackground().getRed());
+		pc.colorG.setText(""+pc.colorChoice.getBackground().getGreen());
+		pc.colorB.setText(""+pc.colorChoice.getBackground().getBlue());
+		System.out.println("r = " + r + " g = " + g + " b = " + b);
 		pc.repaint();
 	}
-
-	
 
 }

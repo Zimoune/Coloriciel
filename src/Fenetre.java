@@ -20,6 +20,7 @@ public static Panel menuNmbColor;
 public static PanelColor menuColorChoice;
 private int nmbColorTotal;
 private DisplayColor dc;
+private int greyIndicator=220;
 
 	public Fenetre(int x, int y, String name){
 		menuNmbColor = new Panel("menuNmbColor", new Color(204,204,204), this.x, this.y);
@@ -37,51 +38,57 @@ private DisplayColor dc;
 		this.pack();
 		
 	}
-
+	
+	public void setGreyIndicator(int c){
+		greyIndicator = greyIndicator - c;
+	}
+	public int getGreyIndicator(){
+		return greyIndicator;
+	}
 	@Override
 	public void actionPerformed(ActionEvent arg0) {
 		String str = ((Button)arg0.getSource()).getText();
 		
 		
 		if(str.equals("1")){
-			menuColorChoice = new PanelColor(this, "menuColorChoice", 1, new Color(204, 204, 204), this.x, this.y);
 			this.nmbColorTotal = 1;
+			menuColorChoice = new PanelColor(this, "menuColorChoice", 1, new Color(204, 204, 204), this.x, this.y);
 		}
 		else if(str.equals("2")){
-			menuColorChoice = new PanelColor(this, "menuColorChoice", 2, new Color(204, 204, 204), this.x, this.y);
 			this.nmbColorTotal = 2;
+			menuColorChoice = new PanelColor(this, "menuColorChoice", 2, new Color(204, 204, 204), this.x, this.y);
 		}
 		else if(str.equals("3")){
-			menuColorChoice = new PanelColor(this, "menuColorChoice", 3, new Color(204, 204, 204), this.x, this.y);
 			this.nmbColorTotal = 3;
+			menuColorChoice = new PanelColor(this, "menuColorChoice", 3, new Color(204, 204, 204), this.x, this.y);
 		}
 		else if(str.equals("4")){
-			menuColorChoice = new PanelColor(this, "menuColorChoice", 4, new Color(204, 204, 204), this.x, this.y);
 			this.nmbColorTotal = 4;
+			menuColorChoice = new PanelColor(this, "menuColorChoice", 4, new Color(204, 204, 204), this.x, this.y);
 		}
 		else if(str.equals("5")){
-			menuColorChoice = new PanelColor(this, "menuColorChoice", 5, new Color(204, 204, 204), this.x, this.y);
 			this.nmbColorTotal = 5;
+			menuColorChoice = new PanelColor(this, "menuColorChoice", 5, new Color(204, 204, 204), this.x, this.y);
 		}
 		else if(str.equals("6")){
-			menuColorChoice = new PanelColor(this, "menuColorChoice", 6, new Color(204, 204, 204), this.x, this.y);
 			this.nmbColorTotal = 6;
+			menuColorChoice = new PanelColor(this, "menuColorChoice", 6, new Color(204, 204, 204), this.x, this.y);
 		}
 		else if(str.equals("7")){
-			menuColorChoice = new PanelColor(this, "menuColorChoice", 7, new Color(204, 204, 204), this.x, this.y);
 			this.nmbColorTotal = 7;
+			menuColorChoice = new PanelColor(this, "menuColorChoice", 7, new Color(204, 204, 204), this.x, this.y);
 		}
 		else if(str.equals("8")){
-			menuColorChoice = new PanelColor(this, "menuColorChoice", 8, new Color(204, 204, 204), this.x, this.y);
 			this.nmbColorTotal = 8;
+			menuColorChoice = new PanelColor(this, "menuColorChoice", 8, new Color(204, 204, 204), this.x, this.y);
 		}
 		else if(str.equals("9")){
-			menuColorChoice = new PanelColor(this, "menuColorChoice", 9, new Color(204, 204, 204), this.x, this.y);
 			this.nmbColorTotal = 9;
+			menuColorChoice = new PanelColor(this, "menuColorChoice", 9, new Color(204, 204, 204), this.x, this.y);
 		}
 		else if(str.equals("10")){
-			menuColorChoice = new PanelColor(this, "menuColorChoice", 10, new Color(204, 204, 204), this.x, this.y);
 			this.nmbColorTotal = 10;
+			menuColorChoice = new PanelColor(this, "menuColorChoice", 10, new Color(204, 204, 204), this.x, this.y);
 		}
 		dc = new DisplayColor(this, this.nmbColorTotal, new Color(204, 204, 204), 0, 0, this.getWidth(), this.getHeight());
 		this.setContentPane(menuColorChoice);
