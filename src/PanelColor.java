@@ -1,4 +1,3 @@
-
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.event.MouseEvent;
@@ -31,9 +30,15 @@ public class PanelColor extends JPanel implements MouseListener {
 	private Fenetre frame;
 	private DisplayColor dc;
 	private Label numColor = new Label("Il reste ", 450, 175, 150, 40);
+
 	private int maxGrey =220;
 	private int neededGrey;
 	
+
+	private Button lastButton;
+	private boolean estConstructeurBis = false;
+
+
 	public PanelColor(Fenetre f, String name, int nbColor, Color c, int w, int h) {
 		this.bgColor = c;
 		choseColor.addMouseListener(this);
@@ -60,21 +65,27 @@ public class PanelColor extends JPanel implements MouseListener {
 		this.add(colorG);
 		neededGrey= maxGrey/(frame.getNmbColor());
 	}
-	
-	public PanelColor(Fenetre f, DisplayColor dc, Button lastButton, int w, int h){
+
+	public PanelColor(int id, Fenetre f, DisplayColor dc, Button backButton,
+			int w, int h) {
+		this.estConstructeurBis = true;
 		this.bgColor = dc.getBackground();
 		this.dc = dc;
+		this.setBounds(0, 0, w, h);
+		this.lastButton = backButton;
 		this.setBackground(this.bgColor);
 		this.add(colorB);
 		this.add(colorG);
 		this.add(colorR);
-		this.colorB.setColor(""+lastButton.getColor().getBlue());
-		this.colorR.setColor(""+lastButton.getColor().getRed());
-		this.colorG.setColor(""+lastButton.getColor().getGreen());
+		System.out.println(this.lastButton);
+		this.colorB.setColor("" + this.lastButton.getColor().getBlue());
+		this.colorR.setColor("" + this.lastButton.getColor().getRed());
+		this.colorG.setColor("" + this.lastButton.getColor().getGreen());
 		this.colorChoice.setBackground(lastButton.getColor());
+		this.next.setId(lastButton.getId());
 		choseColor.addMouseListener(this);
 		this.add(choseColor);
-		//this.add(this.numColor);
+		// this.add(this.numColor);
 		this.frame = f;
 		this.setSize(new Dimension(w, h));
 		this.setLayout(null);
@@ -83,8 +94,8 @@ public class PanelColor extends JPanel implements MouseListener {
 		this.add(carreColor);
 		validColor(colorR.getColor(), colorG.getColor(), colorB.getColor());
 		this.add(colorChoice);
-		//this.next.addMouseListener(this);
-		//this.add(next);
+		this.next.addMouseListener(this);
+		this.add(next);
 
 	}
 
@@ -126,26 +137,44 @@ public class PanelColor extends JPanel implements MouseListener {
 	@Override
 	public void mouseClicked(MouseEvent arg0) {
 		Button b;
-		if(arg0.getSource() instanceof Button){
+		if (arg0.getSource() instanceof Button) {
 			b = (Button) arg0.getSource();
+			int red = this.stringToInt(this.colorR.getText());
+			int green = this.stringToInt(this.colorG.getText());
+			int blue = this.stringToInt(this.colorB.getText());
 			if (arg0.getSource() == next) {
 				if (this.nmbColor != 0) {
-					this.frame.getDC().addColor(
-							new Color(this.stringToInt(this.colorR.getText()), this
-									.stringToInt(this.colorG.getText()), this
-									.stringToInt(this.colorB.getText())));
+					this.frame.getDC().addColor(new Color(red, green, blue));
 					b.setColor(this.colorChoice.getBackground());
 					this.frame.setContentPane(new PanelColor(this.frame,
-							"menuColorChoice", this.nmbColor, this.bgColor, this
-									.getWidth(), this.getHeight()));
+							"menuColorChoice", this.nmbColor, this.bgColor,
+							this.getWidth(), this.getHeight()));
 				} else {
-					this.frame.getDC().addColor(
-							new Color(this.stringToInt(this.colorR.getText()), this
-									.stringToInt(this.colorG.getText()), this
-									.stringToInt(this.colorB.getText())));
-					b.setColor(this.colorChoice.getBackground());
-					this.frame.getDC().updatePanel();
-					this.frame.setContentPane(this.frame.getDC());
+					if (estConstructeurBis == true) {
+						System.out.println("id ===== "+b.getId());
+						dc.getButtonList().get(b.getId()).setBackground(new Color(red, green, blue));
+						dc.getButtonList().get(b.getId()).setColor(new Color(red, green, blue));
+						//dc.getButtonList().set(b.getId(), b);
+						dc.repaint();
+						//this.frame.getDC().updatePanel();
+						this.frame.setContentPane(dc);
+						dc.repaint();
+						this.frame.revalidate();
+						estConstructeurBis = false;
+					} else {
+						this.frame.getDC()
+								.addColor(
+										new Color(this.stringToInt(this.colorR
+												.getText()), this
+												.stringToInt(this.colorG
+														.getText()), this
+												.stringToInt(this.colorB
+														.getText())));
+						b.setColor(this.colorChoice.getBackground());
+						this.frame.getDC().updatePanel();
+						this.frame.setContentPane(this.frame.getDC());
+					}
+
 				}
 				
 				frame.setGreyIndicator(neededGrey);
@@ -161,21 +190,23 @@ public class PanelColor extends JPanel implements MouseListener {
 			}
 
 			else {
-				System.out.println(colorR.getText() + " " + colorG.getText() + " "
-						+ colorB.getText());
+				System.out.println(colorR.getText() + " " + colorG.getText()
+						+ " " + colorB.getText());
 				this.colorR.setColor(colorR.getText());
 				this.colorG.setColor(colorG.getText());
 				this.colorB.setColor(colorB.getText());
-				validColor(colorR.getColor(), colorG.getColor(), colorB.getColor());
+				validColor(colorR.getColor(), colorG.getColor(),
+						colorB.getColor());
 				this.colorR.setText("" + colorR.getColor());
 				this.colorG.setText("" + colorG.getColor());
 				this.colorB.setText("" + colorB.getColor());
 				this.repaint();
 			}
 		}
-			
 
 	}
+	
+	
 
 	public int stringToInt(String c) {
 		int color = 0;

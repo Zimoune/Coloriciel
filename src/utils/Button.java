@@ -10,6 +10,7 @@ public class Button extends JButton{
 	private String name = "";
 	private int posX, posY;
 	private Color trueColor;
+	private int id;
 	
 	public Button(int id, int posX, int posY, int width, int height){
 		this.posX = posX;
@@ -17,6 +18,7 @@ public class Button extends JButton{
 		this.setBounds(posX, posY, width, height);
 		this.name = this.name + id;
 		this.setText(name);
+		this.id = id;
 	}
 	
 	public Button(String text, int posX, int posY, int width, int height){
@@ -31,6 +33,9 @@ public class Button extends JButton{
 		this.setBounds(posX, posY, width, height);
 	}
 	
+	public void setId(int i){
+		this.id = i;
+	}
 	public int getPosX(){
 		return this.posX;
 	}
@@ -41,6 +46,10 @@ public class Button extends JButton{
 	
 	public void setColor(Color c){
 		this.trueColor = c;
+	}
+	
+	public int getId(){
+		return this.id;
 	}
 	
 	public Color getColor(){
