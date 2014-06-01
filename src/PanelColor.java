@@ -32,12 +32,14 @@ public class PanelColor extends JPanel implements MouseListener {
 	private Label numColor = new Label("Il reste ", 450, 175, 150, 40);
 
 
+
 	private int maxGrey =220;
 	private int neededGrey;
 	
 
 	private Button lastButton;
 	private boolean estConstructeurBis = false;
+
 
 
 	public PanelColor(Fenetre f, String name, int nbColor, Color c, int w, int h) {
