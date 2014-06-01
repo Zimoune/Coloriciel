@@ -31,6 +31,7 @@ public class PanelColor extends JPanel implements MouseListener {
 	private DisplayColor dc;
 	private Label numColor = new Label("Il reste ", 450, 175, 150, 40);
 
+
 	private int maxGrey =220;
 	private int neededGrey;
 	
