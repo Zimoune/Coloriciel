@@ -69,8 +69,10 @@ public class DisplayColor extends Panel implements MouseListener{
 			System.out.println(this.frame);
 			System.out.println(this);
 			System.out.println(b);
-			modify = new PanelColor(b.getId(), this.frame, this, b, 600, 300);
-			this.frame.setContentPane(modify);
+			//modify = 
+			modify = frame.map.get(220-(frame.getNeededGrey()*1));
+			PanelColor test = new PanelColor(b.getId(), this.frame, this, b, 600, 300);
+			this.frame.setContentPane(test);
 			this.frame.revalidate();
 		}
 	}

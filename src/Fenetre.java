@@ -4,6 +4,8 @@ import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.HashMap;
+import java.util.Map;
 
 import javax.swing.JFrame;
 
@@ -22,6 +24,7 @@ private int nmbColorTotal;
 private DisplayColor dc;
 private int greyIndicator=220;
 private int neededGrey;
+Map<Integer, PanelColor> map;
 
 	public Fenetre(int x, int y, String name){
 		menuNmbColor = new Panel("menuNmbColor", new Color(204,204,204), this.x, this.y);
@@ -29,6 +32,7 @@ private int neededGrey;
 		this.y = y;
 		this.name = name;
 		this.setVisible(true);
+		map = new HashMap<Integer, PanelColor>();
 		this.setPreferredSize(new Dimension(this.x, this.y));
 		this.setDefaultCloseOperation(EXIT_ON_CLOSE);
 		this.setLocationRelativeTo(null);
