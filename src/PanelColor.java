@@ -1,4 +1,3 @@
-
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.event.MouseEvent;
@@ -31,15 +30,10 @@ public class PanelColor extends JPanel implements MouseListener {
 	private Fenetre frame;
 	private DisplayColor dc;
 	private Label numColor = new Label("Il reste ", 450, 175, 150, 40);
-
-
-	private int maxGrey =220;
-	private int neededGrey;
-	
-
 	private Button lastButton;
 	private boolean estConstructeurBis = false;
-
+	private int maxGrey =220;
+	private int neededGrey;
 
 	public PanelColor(Fenetre f, String name, int nbColor, Color c, int w, int h) {
 		this.bgColor = c;
