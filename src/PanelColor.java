@@ -34,6 +34,7 @@ public class PanelColor extends JPanel implements MouseListener {
 	private boolean estConstructeurBis = false;
 	private int maxGrey =220;
 	private int neededGrey;
+	private int thisGrey;
 
 
 	public PanelColor(Fenetre f, String name, int nbColor, Color c, int w, int h) {
@@ -61,6 +62,7 @@ public class PanelColor extends JPanel implements MouseListener {
 		this.add(colorB);
 		this.add(colorG);
 		neededGrey= maxGrey/(frame.getNmbColor());
+		frame.setNeededGrey(neededGrey);
 	}
 
 	public PanelColor(int id, Fenetre f, DisplayColor dc, Button backButton,

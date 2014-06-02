@@ -21,6 +21,7 @@ public static PanelColor menuColorChoice;
 private int nmbColorTotal;
 private DisplayColor dc;
 private int greyIndicator=220;
+private int neededGrey;
 
 	public Fenetre(int x, int y, String name){
 		menuNmbColor = new Panel("menuNmbColor", new Color(204,204,204), this.x, this.y);
@@ -44,6 +45,12 @@ private int greyIndicator=220;
 	}
 	public int getGreyIndicator(){
 		return greyIndicator;
+	}
+	public void setNeededGrey(int grey){
+		neededGrey= grey;
+	}
+	public int getNeededGrey(){
+		return neededGrey;
 	}
 	@Override
 	public void actionPerformed(ActionEvent arg0) {
