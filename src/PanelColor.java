@@ -15,7 +15,7 @@ import utils.TextField;
 public class PanelColor extends JPanel implements MouseListener {
 	private int nmbColor;
 	private ArrayList<Button> buttonList = new ArrayList<Button>();
-	private CarreColor carreColor = new CarreColor("stfu", new Color(255, 255,
+	private CarreColor carreColor = new CarreColor("CarreColor", new Color(255, 255,
 			255), this);
 	public TextField colorR = new TextField(Color.yellow.getRed(), 240, 230,
 			30, 30);
@@ -32,6 +32,9 @@ public class PanelColor extends JPanel implements MouseListener {
 	private Label numColor = new Label("Il reste ", 450, 175, 150, 40);
 	private Button lastButton;
 	private boolean estConstructeurBis = false;
+	private int maxGrey =220;
+	private int neededGrey;
+
 
 	public PanelColor(Fenetre f, String name, int nbColor, Color c, int w, int h) {
 		this.bgColor = c;
@@ -57,6 +60,7 @@ public class PanelColor extends JPanel implements MouseListener {
 		this.add(next);
 		this.add(colorB);
 		this.add(colorG);
+		neededGrey= maxGrey/(frame.getNmbColor());
 	}
 
 	public PanelColor(int id, Fenetre f, DisplayColor dc, Button backButton,
@@ -99,11 +103,32 @@ public class PanelColor extends JPanel implements MouseListener {
 			g = 0;
 		if (b < 0 || b > 255)
 			b = 0;
-		this.colorChoice.setBackground(new Color(r, g, b));
-		this.colorR.setText("" + r);
-		this.colorG.setText("" + g);
-		this.colorB.setText("" + b);
+		//this.colorChoice.setBackground(new Color(r, g, b));
+		this.colorChoice.setBackground(setGrey(r,g,b));
+		System.out.println(this.colorChoice.getBackground().getRed());
+		System.out.println(this.colorChoice.getBackground().getGreen());
+		System.out.println(this.colorChoice.getBackground().getBlue());
+		this.colorR.setText("" + this.colorChoice.getBackground().getRed());
+		this.colorG.setText("" + this.colorChoice.getBackground().getGreen());
+		this.colorB.setText("" + this.colorChoice.getBackground().getBlue());
 		this.repaint();
+	}
+	public Color setGrey(int r, int g, int b){
+		int greyLv=(int) (0.299*r+0.587*g+0.114*b);
+		while(frame.getGreyIndicator() > (greyLv+8) || frame.getGreyIndicator()<(greyLv-8)){
+			if(greyLv<frame.getGreyIndicator()){
+				if(r!=255){r=r+1;}
+				if(g!=255){g=g+1;}
+				if(b!=255){b=b+1;}
+			}
+			if(greyLv>frame.getGreyIndicator()){
+				if(r!=0){r=r-1;}
+				if(g!=0){g=g-1;}
+				if(b!=0){b=b-1;}
+			}
+			greyLv = (int) (0.299*r+0.587*g+0.114*b);
+		}
+		return new Color(r,g,b);
 	}
 
 	@Override
@@ -148,6 +173,8 @@ public class PanelColor extends JPanel implements MouseListener {
 					}
 
 				}
+				
+				frame.setGreyIndicator(neededGrey);
 				this.frame.revalidate();
 			}
 
