@@ -1,3 +1,4 @@
+
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.event.MouseEvent;
@@ -15,7 +16,7 @@ import utils.TextField;
 public class PanelColor extends JPanel implements MouseListener {
 	private int nmbColor;
 	private ArrayList<Button> buttonList = new ArrayList<Button>();
-	private CarreColor carreColor = new CarreColor("CarreColor", new Color(255, 255,
+	private CarreColor carreColor = new CarreColor("stfu", new Color(255, 255,
 			255), this);
 	public TextField colorR = new TextField(Color.yellow.getRed(), 240, 230,
 			30, 30);
@@ -30,10 +31,6 @@ public class PanelColor extends JPanel implements MouseListener {
 	private Fenetre frame;
 	private DisplayColor dc;
 	private Label numColor = new Label("Il reste ", 450, 175, 150, 40);
-	private Button lastButton;
-	private boolean estConstructeurBis = false;
-	private int maxGrey =220;
-	private int neededGrey;
 
 	public PanelColor(Fenetre f, String name, int nbColor, Color c, int w, int h) {
 		this.bgColor = c;
@@ -59,29 +56,22 @@ public class PanelColor extends JPanel implements MouseListener {
 		this.add(next);
 		this.add(colorB);
 		this.add(colorG);
-		neededGrey= maxGrey/(frame.getNmbColor());
 	}
-
-	public PanelColor(int id, Fenetre f, DisplayColor dc, Button backButton,
-			int w, int h) {
-		this.estConstructeurBis = true;
+	
+	public PanelColor(Fenetre f, DisplayColor dc, Button lastButton, int w, int h){
 		this.bgColor = dc.getBackground();
 		this.dc = dc;
-		this.setBounds(0, 0, w, h);
-		this.lastButton = backButton;
 		this.setBackground(this.bgColor);
 		this.add(colorB);
 		this.add(colorG);
 		this.add(colorR);
-		System.out.println(this.lastButton);
-		this.colorB.setColor("" + this.lastButton.getColor().getBlue());
-		this.colorR.setColor("" + this.lastButton.getColor().getRed());
-		this.colorG.setColor("" + this.lastButton.getColor().getGreen());
+		this.colorB.setColor(""+lastButton.getColor().getBlue());
+		this.colorR.setColor(""+lastButton.getColor().getRed());
+		this.colorG.setColor(""+lastButton.getColor().getGreen());
 		this.colorChoice.setBackground(lastButton.getColor());
-		this.next.setId(lastButton.getId());
 		choseColor.addMouseListener(this);
 		this.add(choseColor);
-		// this.add(this.numColor);
+		//this.add(this.numColor);
 		this.frame = f;
 		this.setSize(new Dimension(w, h));
 		this.setLayout(null);
@@ -90,8 +80,8 @@ public class PanelColor extends JPanel implements MouseListener {
 		this.add(carreColor);
 		validColor(colorR.getColor(), colorG.getColor(), colorB.getColor());
 		this.add(colorChoice);
-		this.next.addMouseListener(this);
-		this.add(next);
+		//this.next.addMouseListener(this);
+		//this.add(next);
 
 	}
 
@@ -102,78 +92,37 @@ public class PanelColor extends JPanel implements MouseListener {
 			g = 0;
 		if (b < 0 || b > 255)
 			b = 0;
-		//this.colorChoice.setBackground(new Color(r, g, b));
-		this.colorChoice.setBackground(setGrey(r,g,b));
-		System.out.println(this.colorChoice.getBackground().getRed());
-		System.out.println(this.colorChoice.getBackground().getGreen());
-		System.out.println(this.colorChoice.getBackground().getBlue());
-		this.colorR.setText("" + this.colorChoice.getBackground().getRed());
-		this.colorG.setText("" + this.colorChoice.getBackground().getGreen());
-		this.colorB.setText("" + this.colorChoice.getBackground().getBlue());
+		this.colorChoice.setBackground(new Color(r, g, b));
+		this.colorR.setText("" + r);
+		this.colorG.setText("" + g);
+		this.colorB.setText("" + b);
 		this.repaint();
-	}
-	public Color setGrey(int r, int g, int b){
-		int greyLv=(int) (0.299*r+0.587*g+0.114*b);
-		while(frame.getGreyIndicator() > (greyLv+8) || frame.getGreyIndicator()<(greyLv-8)){
-			if(greyLv<frame.getGreyIndicator()){
-				if(r!=255){r=r+1;}
-				if(g!=255){g=g+1;}
-				if(b!=255){b=b+1;}
-			}
-			if(greyLv>frame.getGreyIndicator()){
-				if(r!=0){r=r-1;}
-				if(g!=0){g=g-1;}
-				if(b!=0){b=b-1;}
-			}
-			greyLv = (int) (0.299*r+0.587*g+0.114*b);
-		}
-		return new Color(r,g,b);
 	}
 
 	@Override
 	public void mouseClicked(MouseEvent arg0) {
 		Button b;
-		if (arg0.getSource() instanceof Button) {
+		if(arg0.getSource() instanceof Button){
 			b = (Button) arg0.getSource();
-			int red = this.stringToInt(this.colorR.getText());
-			int green = this.stringToInt(this.colorG.getText());
-			int blue = this.stringToInt(this.colorB.getText());
 			if (arg0.getSource() == next) {
 				if (this.nmbColor != 0) {
-					this.frame.getDC().addColor(new Color(red, green, blue));
+					this.frame.getDC().addColor(
+							new Color(this.stringToInt(this.colorR.getText()), this
+									.stringToInt(this.colorG.getText()), this
+									.stringToInt(this.colorB.getText())));
 					b.setColor(this.colorChoice.getBackground());
 					this.frame.setContentPane(new PanelColor(this.frame,
-							"menuColorChoice", this.nmbColor, this.bgColor,
-							this.getWidth(), this.getHeight()));
+							"menuColorChoice", this.nmbColor, this.bgColor, this
+									.getWidth(), this.getHeight()));
 				} else {
-					if (estConstructeurBis == true) {
-						System.out.println("id ===== "+b.getId());
-						dc.getButtonList().get(b.getId()).setBackground(new Color(red, green, blue));
-						dc.getButtonList().get(b.getId()).setColor(new Color(red, green, blue));
-						//dc.getButtonList().set(b.getId(), b);
-						dc.repaint();
-						//this.frame.getDC().updatePanel();
-						this.frame.setContentPane(dc);
-						dc.repaint();
-						this.frame.revalidate();
-						estConstructeurBis = false;
-					} else {
-						this.frame.getDC()
-								.addColor(
-										new Color(this.stringToInt(this.colorR
-												.getText()), this
-												.stringToInt(this.colorG
-														.getText()), this
-												.stringToInt(this.colorB
-														.getText())));
-						b.setColor(this.colorChoice.getBackground());
-						this.frame.getDC().updatePanel();
-						this.frame.setContentPane(this.frame.getDC());
-					}
-
+					this.frame.getDC().addColor(
+							new Color(this.stringToInt(this.colorR.getText()), this
+									.stringToInt(this.colorG.getText()), this
+									.stringToInt(this.colorB.getText())));
+					b.setColor(this.colorChoice.getBackground());
+					this.frame.getDC().updatePanel();
+					this.frame.setContentPane(this.frame.getDC());
 				}
-				
-				frame.setGreyIndicator(neededGrey);
 				this.frame.revalidate();
 			}
 
@@ -186,23 +135,21 @@ public class PanelColor extends JPanel implements MouseListener {
 			}
 
 			else {
-				System.out.println(colorR.getText() + " " + colorG.getText()
-						+ " " + colorB.getText());
+				System.out.println(colorR.getText() + " " + colorG.getText() + " "
+						+ colorB.getText());
 				this.colorR.setColor(colorR.getText());
 				this.colorG.setColor(colorG.getText());
 				this.colorB.setColor(colorB.getText());
-				validColor(colorR.getColor(), colorG.getColor(),
-						colorB.getColor());
+				validColor(colorR.getColor(), colorG.getColor(), colorB.getColor());
 				this.colorR.setText("" + colorR.getColor());
 				this.colorG.setText("" + colorG.getColor());
 				this.colorB.setText("" + colorB.getColor());
 				this.repaint();
 			}
 		}
+			
 
 	}
-	
-	
 
 	public int stringToInt(String c) {
 		int color = 0;

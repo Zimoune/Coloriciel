@@ -28,11 +28,10 @@ public class DisplayColor extends Panel implements MouseListener{
 	public void updatePanel(){
 		int buttonX = 130, buttonY = 110;
 		boolean changement = false;
+		System.out.println("nmbColor = " + this.nmbColor);
 		for(int i = 0; i<nmbColor; i++){
-			buttonList.add(new Button(i, buttonX, buttonY, 50, 50));
+			buttonList.add(new Button(buttonX, buttonY, 50, 50));
 			buttonList.get(i).setBackground(listColor.get(i));
-			buttonList.get(i).setColor(buttonList.get(i).getBackground());
-		//	buttonList.get(i).setColor(c);
 			buttonX = buttonX+70;
 			if(i>4)
 				if(changement == false){
@@ -50,31 +49,16 @@ public class DisplayColor extends Panel implements MouseListener{
 		this.repaint();
 		this.frame.revalidate();
 	}
-	
-	public void setColorAtButton(int index, Color c){
-		this.buttonList.get(index).setBackground(c);
-		this.buttonList.get(index).setColor(c);
-		this.updatePanel();
-	}
-	
-	public ArrayList<Button> getButtonList(){
-		return this.buttonList;
-	}
 
 	@Override
 	public void mouseClicked(MouseEvent arg0) {
 		if(arg0.getSource() instanceof Button){
 			Button b = (Button) arg0.getSource();
-			System.out.println("------------------");
-			System.out.println(this.frame);
-			System.out.println(this);
-			System.out.println(b);
-			modify = new PanelColor(b.getId(), this.frame, this, b, 600, 300);
+			modify = new PanelColor(this.frame, this, b, 600, 300);
 			this.frame.setContentPane(modify);
 			this.frame.revalidate();
 		}
 	}
-	
 
 	@Override
 	public void mouseEntered(MouseEvent arg0) {
@@ -83,11 +67,11 @@ public class DisplayColor extends Panel implements MouseListener{
 				tabColor[i] = buttonList.get(i).getBackground();
 				int r, g, b;
 				r = (int) (0.299*tabColor[i].getRed());
-				//System.out.println(r);
+				System.out.println(r);
 				g = (int) (0.587*tabColor[i].getGreen());
-				//System.out.println(g);
+				System.out.println(g);
 				b = (int) (0.114*tabColor[i].getBlue());
-				//System.out.println(b);
+				System.out.println(b);
 				buttonList.get(i).setBackground(new Color(r+g+b, r+g+b, r+g+b));
 			}
 			this.frame.revalidate();
@@ -100,7 +84,7 @@ public class DisplayColor extends Panel implements MouseListener{
 	public void mouseExited(MouseEvent arg0) {
 		if(estPasse == true){
 			for(int i = 0; i<buttonList.size(); i++){
-				buttonList.get(i).setBackground(buttonList.get(i).getColor());
+				buttonList.get(i).setBackground(this.tabColor[i]);
 			}
 			estPasse = false;
 			this.frame.revalidate();
